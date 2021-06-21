@@ -1,0 +1,11 @@
+header.main-header
+    nav.main-header__nav
+        ul.main-header__item-list
+            li.main-header__item
+                a(href="/products", class=(currentPath === '/products' ? 'active' : '')) Shop
+            li.main-header__item
+                a(href="/cart", class=(currentPath === '/cart' ? 'active' : '')) Cart
+            li.main-header__item
+                a(href="/checkout", class=(currentPath === '/checkout' ? 'active' : '')) Checkout
+            li.main-header__item
+                a(href="/admin/products", class=(currentPath === '/admin/products' ? 'active' : '')) Admin Products

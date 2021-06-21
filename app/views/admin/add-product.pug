@@ -1,0 +1,18 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/main.css")
+    link(rel="stylesheet", href="/css/forms.css")
+    link(rel="stylesheet", href="/css/product.css")
+block content
+    main
+        form.product-form(action="/admin/add-product", method="POST")
+            each control in controls
+                - var id = control.id
+                - var name = control.name
+                - var type = control.type
+
+                .form-control
+                    label(for="" + id) #{control.content}
+                    input(type="" + type, name="" + name, id="" + id)
+            button.btn(type="submit") Add product
