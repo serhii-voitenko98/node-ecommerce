@@ -1,5 +1,4 @@
 const Product = require('../models/product');
-const Cart = require('../models/cart');
 
 // / => GET
 exports.getIndexController = (req, res) => {
@@ -13,33 +12,6 @@ exports.getProductsController = (req, res) => {
             pageTitle: 'Products',
             currentPath: '/products',
             prods: data,
-        });
-        error && console.log(error);
-    });
-};
-
-// /cart => GET
-exports.getCartController = (req, res) => {
-    Cart.getCart((error, data) => {
-        res.status(200).render('shop/cart', {
-            pageTitle: 'Cart',
-            currentPath: '/cart',
-            cart: data.cart,
-            totalPrice: data.totalPrice,
-        });
-    });
-};
-
-// /cart => POST
-exports.addToCartController = (req, res) => {
-    const id = req.body.id;
-
-    Cart.addProduct(id, (error, data) => {
-        res.status(200).render('shop/cart', {
-            pageTitle: 'Cart',
-            currentPath: '/cart',
-            cart: data.cart,
-            totalPrice: data.totalPrice,
         });
         error && console.log(error);
     });

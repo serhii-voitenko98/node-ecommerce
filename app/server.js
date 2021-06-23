@@ -14,10 +14,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
+const cartRouter = require('./routes/cart');
 const notFoundRouter = require('./routes/404');
 
 app.use('/admin', adminRouter);
 app.use(shopRouter);
+app.use(cartRouter);
 app.use(notFoundRouter);
 
-app.listen(3000);
+app.listen(3200);

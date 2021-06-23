@@ -5,8 +5,9 @@ block styles
     link(rel="stylesheet", href="/css/product.css")
 block content
     main
-        h1 Total price: #{totalPrice}
         if cart.length
+            h1 Total price: #{totalPrice}
+
             each cartItem in cart
                 article.card.product-item
                     header.card__header
@@ -14,7 +15,12 @@ block content
                     .card__image
                         img(src="https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png", alt="A Book")
                     .card__content
-                        h2.product__price #{cartItem.price}
+                        h2.product__price #{cartItem.price}$
                         p.product__description #{cartItem.description}
+                        if cartItem.qty
+                            p.product__description #{cartItem.qty}
+                    .card__actions
+                        form(action="/cart/" + cartItem.id + "/?delete=true", method="POST")
+                            button.btn(type="submit") Delete
         else
             h1 Cart is empty

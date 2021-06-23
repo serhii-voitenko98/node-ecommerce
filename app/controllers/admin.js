@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const Cart = require('../models/cart');
 const formGroup = require('../models/form-group');
 
 // admin/add-product => GET
@@ -12,7 +13,7 @@ exports.addProductPageController = (req, res) => {
 
 // admin/add-product => POST
 exports.addProductController = (req, res) => {
-    const product = new Product(req.body.title, req.body.price + '$', req.body.description);
+    const product = new Product(req.body.title, req.body.price, req.body.description);
     product.save();
 
     res.redirect('/');
@@ -22,13 +23,15 @@ exports.addProductController = (req, res) => {
 exports.removeProductController = (req, res) => {
     const { id } = req.body;
 
-    Product.remove(id, (error, data) => {
-        res.status(200).render('admin/products', {
-            pageTitle: 'Products',
-            currentPath: 'admin/products',
-            prods: data,
+    Cart.removeFromCart(id, () => {
+        Product.remove(id, (error, data) => {
+            res.status(200).render('admin/products', {
+                pageTitle: 'Products',
+                currentPath: 'admin/products',
+                prods: data,
+            });
+            error && console.log(error);
         });
-        error && console.log(error);
     });
 }
 
