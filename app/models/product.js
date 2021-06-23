@@ -1,7 +1,6 @@
-const fs = require('fs');
 const path = require('path');
 const rootDir = require('../helpers/path');
-const { getReadStreamData } = require('../helpers/read-stream');
+const FileManager = require('../helpers/file-manager');
 
 const pathToFile = path.join(rootDir, 'data', 'products.json');
 
@@ -13,46 +12,29 @@ module.exports = class Product {
     }
 
     save() {
-        Product.#readFile((error, data) => {
+        FileManager.readFile(pathToFile, (error, data) => {
             const products = [...data, this].map((product, i) => (product.id = i+1) && product);
 
-            Product.#writeFile(error, products);
+            FileManager.writeFile(pathToFile, products);
         });
     }
 
     static fetchAll(cb) {
-        Product.#readFile(cb);
+        FileManager.readFile(pathToFile, cb);
     }
 
     static remove(id, cb) {
-        Product.#readFile((error, data) => {
+        FileManager.readFile(pathToFile, (error, data) => {
             const filtered = data.filter(product => product.id != id);
 
-            Product.#writeFile(error, filtered, cb);
+            FileManager.writeFile(pathToFile, filtered, cb);
         });
     }
 
     static getById(id, cb) {
-        Product.#readFile((error, data) => {
+        FileManager.readFile(pathToFile, (error, data) => {
             const founded = data.find(product => product.id == id);
             cb(error, founded);
         });
-    }
-
-    static #writeFile(error, data, cb = null) {
-        const writeStream = fs.createWriteStream(pathToFile);
-        writeStream.write(JSON.stringify(data));
-        writeStream.end();
-
-        error && console.log(error);
-        cb && cb(error, error ? [] : data);
-    }
-
-    static #readFile(cb) {
-        const readStream = fs.createReadStream(pathToFile);
-
-        getReadStreamData(readStream, (error, data) => {
-            cb(error, error ? [] : data);
-        }, 'json');
     }
 }
