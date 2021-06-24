@@ -1,4 +1,4 @@
-const Product = require('../models/product');
+const ProductService = require('../services/product.service');
 
 // / => GET
 exports.getIndexController = (req, res) => {
@@ -7,17 +7,17 @@ exports.getIndexController = (req, res) => {
 
 // /products => GET
 exports.getProductsController = (req, res) => {
-	Product.fetchAll()
-		.then(([rows]) => {
+	ProductService.fetchAll()
+		.then(data => {
 			res.status(200).render('shop/products', {
 				pageTitle: 'Products',
 				currentPath: '/products',
-				prods: rows,
+				prods: data,
 			});
 		})
-    .catch(error => {
-        error && console.log(error);
-    });
+		.catch(error => {
+			error && console.log(error);
+		});
 };
 
 // /checkout => GET
@@ -32,12 +32,12 @@ exports.getCheckoutController = (req, res) => {
 exports.getProductController = (req, res) => {
 	const productId = req.params.id;
 
-	Product.getById(productId)
-		.then(([rows]) => {
+	ProductService.getById(productId)
+		.then(data => {
 			res.status(200).render('shop/details', {
 				pageTitle: 'Product Details',
 				currentPath: '/product/:id',
-				product: rows[0]
+				product: data
 			});
 		})
 		.catch(error => {

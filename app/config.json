@@ -1,0 +1,9 @@
+{
+  "database": {
+    "host": "localhost",
+    "post": "3306",
+    "user": "root",
+    "password": "s313233v",
+    "database": "node_ecommerce"
+  }
+}

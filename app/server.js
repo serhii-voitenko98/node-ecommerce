@@ -3,7 +3,6 @@ const rootDir = require('./helpers/path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const sequelize = require('./helpers/database');
 
 const app = express();
 
@@ -23,11 +22,4 @@ app.use(shopRouter);
 app.use(cartRouter);
 app.use(notFoundRouter);
 
-sequelize
-	.sync()
-	.then(() => {
-		app.listen(3200);
-	})
-	.catch(error => {
-		console.log(error);
-	})
+app.listen(3200);
