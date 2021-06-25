@@ -4,6 +4,8 @@ const rootDir = require('./helpers/path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const UserService = require('./services/user.service');
+
 const app = express();
 
 app.set('view engine', 'pug');
@@ -16,6 +18,24 @@ const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 const cartRouter = require('./routes/cart');
 const notFoundRouter = require('./routes/404');
+
+app.use((req, res, next) => {
+  UserService.getById(1)
+    .then(user => {
+      if (!user) {
+        return UserService.create({ name: 'Serhii', email: 'test@gmail.com' });
+      }
+
+      return user;
+    })
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(error => {
+      console.error(error);
+    })
+});
 
 app.use('/admin', adminRouter);
 app.use(shopRouter);

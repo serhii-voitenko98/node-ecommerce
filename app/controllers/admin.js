@@ -29,13 +29,19 @@ exports.addProductPageController = (req, res) => {
 
 // admin/add-product => POST
 exports.addProductController = (req, res) => {
-	ProductService.save(req.body)
-	  .then(() => {
-		  res.redirect('/');
-	  })
-	  .catch(error => {
-		  console.log(error);
-	  })
+	req.user.createProduct({
+		title: req.body.title,
+		price: req.body.price,
+		imageUrl: req.body.imageUrl,
+		description: req.body.description,
+	})
+	.then(() => {
+		res.redirect('/');
+	})
+	.catch(error => {
+		console.log(error);
+	})
+
 };
 
 // admin/edit-product => GET

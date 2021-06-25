@@ -1,6 +1,6 @@
 const config = require('../config.json');
 const mysql = require('mysql2/promise');
-const {Sequelize} = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 module.exports = db = {};
 
@@ -19,5 +19,8 @@ async function initialize() {
 		db.Product.belongsTo(db.User, { constraints: true, onDelete: 'CASCADE' });
 		db.User.hasMany(db.Product);
 
-		await sequelize.sync({ force: true }).then().catch();
+		await sequelize
+				// .sync({ force: true })
+				.sync()
+				.catch();
 }
