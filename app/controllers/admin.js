@@ -1,21 +1,17 @@
 const ProductService = require('../services/product.service');
-const Cart = require('../models/cart');
+const Cart = require('../models/cart.model');
 const formGroup = require('../models/form-group');
 
 // admin/products => GET
 exports.getAdminProductsController = (req, res) => {
-	try {
-		ProductService.fetchAll()
-			.then(data => {
-				res.status(200).render('admin/products', {
-					pageTitle: 'Products',
-					currentPath: 'admin/products',
-					prods: data,
-				});
+	ProductService.fetchAll()
+		.then(data => {
+			res.status(200).render('admin/products', {
+				pageTitle: 'Products',
+				currentPath: 'admin/products',
+				prods: data,
 			});
-	} catch (error) {
-		console.error(error);
-	}
+		});
 };
 
 // admin/add-product => GET
@@ -41,7 +37,6 @@ exports.addProductController = (req, res) => {
 	.catch(error => {
 		console.log(error);
 	})
-
 };
 
 // admin/edit-product => GET

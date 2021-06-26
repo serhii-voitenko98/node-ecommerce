@@ -1,4 +1,4 @@
-const db = require('../helpers/database');
+const { db } = require('../helpers/database');
 
 module.exports = class ProductService {
 	static async fetchAll() {

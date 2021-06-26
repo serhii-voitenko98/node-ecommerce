@@ -8,6 +8,8 @@ const UserService = require('./services/user.service');
 
 const app = express();
 
+const { db, sequelize } = require('./helpers/database');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(rootDir, 'views'));
 
@@ -20,21 +22,12 @@ const cartRouter = require('./routes/cart');
 const notFoundRouter = require('./routes/404');
 
 app.use((req, res, next) => {
-  UserService.getById(1)
-    .then(user => {
-      if (!user) {
-        return UserService.create({ name: 'Serhii', email: 'test@gmail.com' });
-      }
-
-      return user;
-    })
+  db.User.findByPk(1)
     .then(user => {
       req.user = user;
       next();
     })
-    .catch(error => {
-      console.error(error);
-    })
+    .catch(err => console.log(err));
 });
 
 app.use('/admin', adminRouter);
@@ -42,4 +35,29 @@ app.use(shopRouter);
 app.use(cartRouter);
 app.use(notFoundRouter);
 
-app.listen(3200);
+sequelize
+  .sync()
+  .then(() => {
+    return UserService.getById(1);
+  })
+  .then(user => {
+    if (!user) {
+      return UserService.create({ name: 'Serhii', email: 'test@gmail.com' });
+    }
+
+    return user;
+  })
+  .then(user => {
+    return user.getCart().then(cart => {
+      if (!cart) {
+        return user.createCart();
+      }
+
+      return cart;
+    });
+  })
+  .then(cart => {
+    app.listen(3000);
+  });
+
+
