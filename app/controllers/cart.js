@@ -4,48 +4,29 @@ const CartService = require('../services/cart.service');
 exports.getCartController = (req, res) => {
 	CartService.fetchAllCardItems(req.user)
 		.then(data => {
-			// console.log('data', data);
+			res.status(200).render('shop/cart', {
+				pageTitle: 'Cart',
+				currentPath: '/cart',
+				cart: data,
+				totalPrice: data.reduce((acc, item) => acc + (item.price * item.cartItem.quantity), 0),
+			});
 		})
 		.catch(error => console.error(error));
-	// Cart.getCart((error, data) => {
-	// 	res.status(200).render('shop/cart', {
-	// 		pageTitle: 'Cart',
-	// 		currentPath: '/cart',
-	// 		cart: data.cart,
-	// 		totalPrice: data.totalPrice,
-	// 	});
-	// });
 };
 
-// // /cart => POST
-// exports.addToCartController = (req, res) => {
-// 	const id = req.body.id;
-//
-// 	Cart.addProduct(id, (error, data) => {
-// 		res.status(200).render('shop/cart', {
-// 			pageTitle: 'Cart',
-// 			currentPath: '/cart',
-// 			cart: data.cart,
-// 			totalPrice: data.totalPrice,
-// 		});
-// 		error && console.log(error);
-// 	});
-// };
-//
-// exports.deleteFromCartController = (req, res) => {
-// 	const isDeleting = req.query.delete;
-//
-// 	if (isDeleting) {
-// 		const id = req.params.id;
-//
-// 		Cart.removeFromCart(id, (error, data) => {
-// 			res.status(200).render('shop/cart', {
-// 				pageTitle: 'Cart',
-// 				currentPath: '/cart',
-// 				cart: data.cart,
-// 				totalPrice: data.totalPrice,
-// 			});
-// 			error && console.log(error);
-// 		});
-// 	}
-// }
+// /cart => POST
+exports.addToCartController = (req, res) => {
+	const id = req.body.id;
+
+	CartService.addToCart(req.user, id).then(() => res.status(200).redirect('/cart'))
+};
+
+exports.deleteFromCartController = (req, res) => {
+	const isDeleting = req.query.delete;
+
+	if (isDeleting) {
+		const id = req.params.id;
+
+		CartService.removeFromCart(req.user, id).then(() => res.status(200).redirect('/cart'));
+	}
+};

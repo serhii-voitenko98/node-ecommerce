@@ -8,19 +8,19 @@ block content
         if cart.length
             h1 Total price: #{totalPrice}
 
-            each cartItem in cart
+            each p in cart
                 article.card.product-item
                     header.card__header
-                        h1.product__title #{cartItem.title}
+                        h1.product__title #{p.title}
                     .card__image
-                        img(src="" + cartItem.imageUrl, alt="A Book")
+                        img(src="" + p.imageUrl, alt="A Book")
                     .card__content
-                        h2.product__price #{cartItem.price}$
-                        p.product__description #{cartItem.description}
-                        if cartItem.qty
-                            p.product__description #{cartItem.qty}
+                        h2.product__price #{p.price}$
+                        p.product__description #{p.description}
+                        if p.cartItem.quantity
+                            p.product__description #{p.cartItem.quantity}
                     .card__actions
-                        form(action="/cart/" + cartItem.id + "/?delete=true", method="POST")
+                        form(action="/cart/" + p.id + "/?delete=true", method="POST")
                             button.btn(type="submit") Delete
         else
             h1 Cart is empty

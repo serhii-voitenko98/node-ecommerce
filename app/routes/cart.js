@@ -10,10 +10,10 @@ const router = express.Router();
 // /cart => GET
 router.get('/cart', getCartController);
 
-// // /cart => POST
-// router.post('/cart', addToCartController);
+// /cart => POST
+router.post('/cart', addToCartController);
 //
-// // /cart => POST
-// router.post('/cart/:id', deleteFromCartController);
+// /cart => POST
+router.post('/cart/:id', deleteFromCartController);
 
 module.exports = router;

@@ -22,7 +22,7 @@ const cartRouter = require('./routes/cart');
 const notFoundRouter = require('./routes/404');
 
 app.use((req, res, next) => {
-  db.User.findByPk(1)
+  db.User.findByPk(3)
     .then(user => {
       req.user = user;
       next();
@@ -36,9 +36,10 @@ app.use(cartRouter);
 app.use(notFoundRouter);
 
 sequelize
-  .sync()
+  // .sync()
+  .sync({force: true})
   .then(() => {
-    return UserService.getById(1);
+    return UserService.getById(3);
   })
   .then(user => {
     if (!user) {
