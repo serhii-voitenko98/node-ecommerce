@@ -1,4 +1,6 @@
-module.exports = (db, sequelize) => {
+module.exports = (sequelize) => {
+	const db = {}
+
 	db.Product = require('../models/product.model')(sequelize);
 	db.User = require('../models/user.model')(sequelize);
 	db.Cart = require('../models/cart.model')(sequelize);
@@ -14,4 +16,6 @@ module.exports = (db, sequelize) => {
 
 	Cart.belongsTo(User);
 	Cart.belongsToMany(Product, {through: CartItem});
+
+	return db;
 }
