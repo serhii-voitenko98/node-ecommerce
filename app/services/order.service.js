@@ -1,6 +1,6 @@
 module.exports = class OrderService {
-	static getOrder(user) {
-		return user.getOrders();
+	static getOrders(user) {
+		return user.getOrders({include: ['products']});
 	}
 
 	static createOrder(user) {

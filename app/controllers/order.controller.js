@@ -2,9 +2,10 @@ const OrderService = require('../services/order.service');
 
 module.exports = class OrderController {
 	static getPage(req, res) {
-		OrderService.getOrder(req.user)
+		OrderService.getOrders(req.user)
 			.then(data => {
 				res.status(200).render('order/orders', {
+					path: '/orders',
 					pageTitle: 'Order',
 					orders: data,
 				});
@@ -13,6 +14,6 @@ module.exports = class OrderController {
 
 	static createOrder(req, res) {
 		OrderService.createOrder(req.user)
-			.then(orders => res.status(200).redirect('/orders'))
+			.then(() => res.status(200).redirect('/orders'))
 	}
 }

@@ -10,19 +10,20 @@ module.exports = (sequelize) => {
 
 	const {Product, User, Cart, CartItem, Order, OrderItem} = db;
 
-	Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
-	Product.belongsToMany(Cart, {through: CartItem});
-	Product.belongsToMany(Order, {through: OrderItem});
-
-	User.hasOne(Cart);
 	User.hasMany(Product);
-	User.hasMany(Order);
+	Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 
-	Cart.belongsTo(User);
+	Product.belongsToMany(Cart, {through: CartItem});
 	Cart.belongsToMany(Product, {through: CartItem});
 
-	Order.belongsTo(User);
+	Product.belongsToMany(Order, {through: OrderItem});
 	Order.belongsToMany(Product, {through: OrderItem});
+
+	User.hasOne(Cart);
+	Cart.belongsTo(User);
+
+	User.hasMany(Order);
+	Order.belongsTo(User);
 
 	return db;
 }
