@@ -19,10 +19,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 const cartRouter = require('./routes/cart');
+const orderRouter = require('./routes/order.router');
 const notFoundRouter = require('./routes/404');
 
 app.use((req, res, next) => {
-  db.User.findByPk(3)
+  db.User.findByPk(1)
     .then(user => {
       req.user = user;
       next();
@@ -33,17 +34,18 @@ app.use((req, res, next) => {
 app.use('/admin', adminRouter);
 app.use(shopRouter);
 app.use(cartRouter);
+app.use(orderRouter);
 app.use(notFoundRouter);
 
 sequelize
-  // .sync()
-  .sync({force: true})
+  .sync()
+  // .sync({force: true})
   .then(() => {
-    return UserService.getById(3);
+    return UserService.getById(1);
   })
   .then(user => {
     if (!user) {
-      return UserService.create({ name: 'Serhii', email: 'test@gmail.com' });
+      return UserService.createUser({ name: 'Serhii', email: 'test@gmail.com' });
     }
 
     return user;

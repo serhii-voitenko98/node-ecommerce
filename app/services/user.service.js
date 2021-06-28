@@ -9,7 +9,7 @@ module.exports = class UserService {
 		return await db.User.findByPk(id);
 	}
 
-	static async create(data) {
+	static async createUser(data) {
 		return await db.User.create(data);
 	}
 }

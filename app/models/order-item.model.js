@@ -8,7 +8,8 @@ module.exports = sequelize => {
 			primaryKey: true,
 			autoIncrement: true,
 			allowNull: false,
-		}
+		},
+		quantity: DataTypes.INTEGER,
 	}
 
 	return sequelize.define('orderItem', attributes);
