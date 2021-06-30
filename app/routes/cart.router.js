@@ -3,7 +3,7 @@ const {
 	getCartController,
 	addToCartController,
 	deleteFromCartController,
-} = require('../controllers/cart');
+} = require('../controllers/cart.controller');
 
 const router = express.Router();
 

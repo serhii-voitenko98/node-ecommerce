@@ -1,17 +1,26 @@
-const config = require('../config.json');
-const mysql = require('mysql2/promise');
-const {Sequelize} = require('sequelize');
-const initializeDB = require('./initialize-db');
+const mongodb = require('mongodb');
+const { MongoClient } = mongodb;
 
-const {host, port, user, password, database} = config.database;
+const URI = "mongodb+srv://merlin:lzeENoU1Y7PExxRx@nodeecommerce.lfohb.mongodb.net/shop?retryWrites=true&w=majority";
+const client = new MongoClient(URI, { useUnifiedTopology: true });
 
-(async function initialize() {
-	const connection = await mysql.createConnection({host, port, user, password});
-	await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
-})();
+let _db;
 
-const sequelize = new Sequelize(database, user, password, {dialect: 'mysql'});
-const db = initializeDB(sequelize);
+const mongoConnect = callback => {
+	client.connect()
+		.then(client => {
+			console.log('MongoDB connected!');
+			_db = client.db();
+			callback();
+		})
+		.catch()
+}
 
-exports.sequelize = sequelize;
-exports.db = db;
+const getDB = () => {
+	if (_db) {
+		return _db;
+	}
+}
+
+exports.mongoConnect = mongoConnect;
+exports.getDB = getDB;

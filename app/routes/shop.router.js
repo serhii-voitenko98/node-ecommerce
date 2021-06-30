@@ -4,7 +4,7 @@ const {
     getIndexController,
     getCheckoutController,
     getProductController,
-} = require('../controllers/shop');
+} = require('../controllers/shop.controller');
 
 const router = express.Router();
 
