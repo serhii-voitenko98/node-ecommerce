@@ -19,7 +19,7 @@ block content
                             h2.product__price #{product.price}
                             p.product__description #{product.description}
                         .card__actions(style="display: flex;")
-                            a.btn(href="/admin/edit-product/" + product.id) Edit Product
+                            a.btn(href="/admin/edit-product/" + product._id) Edit Product
                             form(action="/admin/remove-product", method="POST")
                                 input(hidden="hidden", value="" + product.id, name="id")
                                 button.btn(type="submit") Remove

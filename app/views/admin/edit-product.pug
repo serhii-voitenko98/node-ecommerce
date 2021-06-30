@@ -6,7 +6,7 @@ block styles
     link(rel="stylesheet", href="/css/product.css")
 block content
     main
-        form.product-form(action="/admin/edit-product/" + product.id, method="POST")
+        form.product-form(action="/admin/edit-product/" + product._id, method="POST")
             each control in controls
                 - var id = control.id
                 - var name = control.name

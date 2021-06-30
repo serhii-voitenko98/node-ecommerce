@@ -18,12 +18,12 @@ router.post('/add-product', addProductController);
 
 // // admin/remove-product => POST
 // router.post('/remove-product', removeProductController);
-//
-// // admin/edit-product => GET
-// router.get('/edit-product/:id', editProductPageController);
-//
-// // admin/edit-product => POST
-// router.post('/edit-product/:id', editProductController);
+
+// admin/edit-product => GET
+router.get('/edit-product/:id', editProductPageController);
+
+// admin/edit-product => POST
+router.post('/edit-product/:id', editProductController);
 
 // admin/products => GET
 router.get('/products', getAdminProductsController);
