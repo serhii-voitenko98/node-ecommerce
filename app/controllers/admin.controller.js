@@ -30,6 +30,7 @@ exports.addProductController = (req, res) => {
 		price: req.body.price,
 		imageUrl: req.body.imageUrl,
 		description: req.body.description,
+		userId: req.user._id,
 	})
 	.then(() => {
 		res.redirect('/');
@@ -75,22 +76,11 @@ exports.editProductController = (req, res) => {
 	  });
 }
 
-// // admin/remove-product => POST
-// exports.removeProductController = (req, res) => {
-// 	const {id} = req.body;
-//
-// 	Cart.removeFromCart(id, () => {
-// 		ProductService.remove(id)
-// 			.then(() => ProductService.fetchAll())
-// 			.then(data => {
-// 				res.status(200).render('admin/products', {
-// 					pageTitle: 'Products',
-// 					currentPath: 'admin/products',
-// 					prods: data,
-// 				});
-// 			})
-// 			.catch(error => {
-// 				error && console.log(error);
-// 			});
-// 	});
-// }
+// admin/remove-product => POST
+exports.removeProductController = (req, res) => {
+	const {id} = req.body;
+
+	ProductService.delete(id)
+		.then(() => res.status(200).redirect('/'))
+		.catch(error => console.error(error));
+}

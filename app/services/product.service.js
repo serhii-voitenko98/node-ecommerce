@@ -28,4 +28,10 @@ module.exports = class ProductService {
 
 		return db.collection('products').updateOne({_id: new mongodb.ObjectId(productId)}, {$set: data});
 	}
+
+	static delete(productId) {
+		const db = getDB();
+
+		return db.collection('products').deleteOne({_id: new mongodb.ObjectId(productId)});
+	}
 }
